@@ -6,11 +6,22 @@ use Dvlpp\Sharp\Exceptions\InstanceNotFoundException;
 use Dvlpp\Sharp\Exceptions\ValidationException;
 use Dvlpp\Sharp\ListView\SharpEntitiesList;
 use Illuminate\Routing\Controller;
+use Dvlpp\Sharp\Lang\SharpLanguage;
 
 /**
  * Class CmsController
  */
-class CmsController extends Controller {
+class CmsController extends Controller
+{
+
+
+    /**
+     * Set the locale for admin/cms
+     */
+    function __construct()
+    {
+        App::setLocale(SharpLanguage::current());
+    }
 
     /**
      * @return mixed
@@ -45,18 +56,15 @@ class CmsController extends Controller {
      */
     public function listEntities($categoryName, $entityName)
     {
-        if(!sizeof(Input::all()) && Session::get("listViewInput_{$categoryName}_{$entityName}"))
-        {
+        if (!sizeof(Input::all()) && Session::get("listViewInput_{$categoryName}_{$entityName}")) {
             // We have saved an old "input", which means we need to display the list
             // with some pagination, or sorting, or search config. We simply redirect
             // with the correct querystring based on old input
             $input = Session::get("listViewInput_{$categoryName}_{$entityName}");
-            return redirect()->route('cms.list', array_merge(["category"=>$categoryName, "entity"=>$entityName], $input));
-        }
-        else
-        {
+            return redirect()->route('cms.list', array_merge(["category" => $categoryName, "entity" => $entityName], $input));
+        } else {
             // Save input (we can use it later, see up)
-            Session::flash("listViewInput_{$categoryName}_{$entityName}", Input::only('page','sort','dir','search','sub'));
+            Session::flash("listViewInput_{$categoryName}_{$entityName}", Input::only('page', 'sort', 'dir', 'search', 'sub'));
         }
 
         // Find Entity config (from sharp CMS config file)
@@ -70,16 +78,16 @@ class CmsController extends Controller {
 
         // And return the View
         return view('sharp::cms.entityList', [
-            'instances'=>$entitiesList->getInstances(),
-            'category'=>SharpCmsConfig::findCategory($categoryName),
-            'entity'=>$entity,
-            'entityKey'=>$entityName,
-            'totalCount'=>$entitiesList->getCount(),
-            'pagination'=>$entitiesList->getPagination(),
-            'subLists'=>$entitiesList->getSublists(),
-            'subList'=>$entitiesList->getCurrentSublistId(),
-            'sortedColumn'=>$entitiesList->getSortedColumn(),
-            'sortedDirection'=>$entitiesList->getSortedDirection()
+            'instances' => $entitiesList->getInstances(),
+            'category' => SharpCmsConfig::findCategory($categoryName),
+            'entity' => $entity,
+            'entityKey' => $entityName,
+            'totalCount' => $entitiesList->getCount(),
+            'pagination' => $entitiesList->getPagination(),
+            'subLists' => $entitiesList->getSublists(),
+            'subList' => $entitiesList->getCurrentSublistId(),
+            'sortedColumn' => $entitiesList->getSortedColumn(),
+            'sortedDirection' => $entitiesList->getSortedDirection()
         ]);
     }
 
@@ -122,12 +130,11 @@ class CmsController extends Controller {
      * @throws InstanceNotFoundException
      * @return mixed
      */
-    public function duplicateEntity($categoryName, $entityName, $id, $lang=null)
+    public function duplicateEntity($categoryName, $entityName, $id, $lang = null)
     {
         Session::keep("listViewInput_{$categoryName}_{$entityName}");
 
-        if($lang)
-        {
+        if ($lang) {
             // We have to first change the language
             // (duplication is useful for i18n copy)
             $this->changeLang($lang);
@@ -203,7 +210,7 @@ class CmsController extends Controller {
         // Reorder
         $repo->reorder($entities);
 
-        return response()->json(["ok"=>true]);
+        return response()->json(["ok" => true]);
     }
 
     /**
@@ -258,7 +265,7 @@ class CmsController extends Controller {
         // Activate / deactivate
         $activate ? $repo->activate($id) : $repo->deactivate($id);
 
-        return response()->json(["ok"=>true]);
+        return response()->json(["ok" => true]);
     }
 
     /**
@@ -269,7 +276,7 @@ class CmsController extends Controller {
      * @throws Dvlpp\Sharp\Exceptions\InstanceNotFoundException
      * @return mixed
      */
-    private function form($categoryName, $entityName, $id, $duplication=false)
+    private function form($categoryName, $entityName, $id, $duplication = false)
     {
         $creation = ($id === null);
 
@@ -282,10 +289,8 @@ class CmsController extends Controller {
         // Retrieve the corresponding DB entity
         $instance = $creation ? $repo->newInstance() : $repo->find($id);
 
-        if($instance)
-        {
-            if(Session::has('masterInstanceData'))
-            {
+        if ($instance) {
+            if (Session::has('masterInstanceData')) {
                 // We are back from a embedded entity form.
                 // We have to repopulate the master form (this form) as it was before
                 $formOldDataStr = unserialize(Session::get('masterInstanceData'));
@@ -295,8 +300,7 @@ class CmsController extends Controller {
             // Duplication management: we simply add an attribute here
             $instance->__sharp_duplication = $duplication;
 
-            if($duplication && method_exists($repo, "prepareForDuplication"))
-            {
+            if ($duplication && method_exists($repo, "prepareForDuplication")) {
                 // We call the repository hook for duplication, in case there's some
                 // ajusts to make on the instance
                 $instance = $repo->prepareForDuplication($instance);
@@ -304,13 +308,11 @@ class CmsController extends Controller {
 
             // And return the View
             return view('sharp::cms.entityForm', [
-                'instance'=>$instance,
-                'entity'=>$entity,
-                'category'=>SharpCmsConfig::findCategory($categoryName)
+                'instance' => $instance,
+                'entity' => $entity,
+                'category' => SharpCmsConfig::findCategory($categoryName)
             ]);
-        }
-        else
-        {
+        } else {
             throw new InstanceNotFoundException("Instance of id [$id] and type [$categoryName.$entityName] can't be found");
         }
 
@@ -336,28 +338,21 @@ class CmsController extends Controller {
 
         try {
             // First : validation
-            if($entity->validator)
-            {
+            if ($entity->validator) {
                 $validator = App::make($entity->validator);
                 $validator->validate($data, $id);
             }
 
             // Then : update (calling repo)
-            if($creation)
-            {
+            if ($creation) {
                 $repo->create($data);
-            }
-            else
-            {
+            } else {
                 $repo->update($id, $data);
             }
 
             // And redirect
             return redirect()->route("cms.list", [$categoryName, $entityName]);
-        }
-
-        catch(ValidationException $e)
-        {
+        } catch (ValidationException $e) {
             return redirect()->back()->withInput()->withErrors($e->getErrors());
         }
     }
@@ -365,14 +360,13 @@ class CmsController extends Controller {
     private function changeLang($lang)
     {
         $languages = SharpSiteConfig::getLanguages();
-        if($languages)
-        {
-            if(!$lang || !array_key_exists($lang, $languages))
-            {
+        if ($languages) {
+            if (!$lang || !array_key_exists($lang, $languages)) {
                 $lang = array_values($languages)[0];
             }
 
             Session::put("sharp_lang", $lang);
+
         }
     }
 

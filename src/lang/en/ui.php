@@ -19,9 +19,9 @@ return [
     'list_entityDuplicateAction' => 'Duplicate',
     'list_entityDuplicateActionLocalized' => 'Duplicate in :lang',
 
-    'form_updateTitle' => ':entity update',
-    'form_createTitle' => ':entity creation',
-    'form_duplicateTitle' => ':entity duplication',
+    'form_updateTitle' => 'Update entity',
+    'form_createTitle' => 'Create entity',
+    'form_duplicateTitle' => 'Duplicate entity',
     'form_deleteConfirmMsg' => 'Delete this entity permanently?',
     'form_updateBtn' => 'Update',
     'form_cancelBtn' => 'Cancel',

@@ -5,7 +5,7 @@ use Session;
 
 class SharpLanguage {
 
-    function current()
+    static function current()
     {
         $languages = SharpSiteConfig::getLanguages();
 
