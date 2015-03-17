@@ -1,31 +1,31 @@
 {
-    "name": "dvlpp/sharp",
-    "description": "A kind of CMS for developers who hate CMS",
-    "authors": [
-        {
-            "name": "Philippe Lonchampt",
-            "email": "philippelonchampt@gmail.com"
-        }
-    ],
-    "require": {
-        "php": ">=5.4.0",
-        "laravel/framework": "5.0.*",
-        "laravelcollective/html": "5.0.*",
-        "intervention/image": "2.*",
-        "erusev/parsedown": "~1.1",
-        "mustache/mustache": "~2.6.0"
-    },
-    "autoload": {
-        "classmap": [
-            "src/migrations",
-            "src/controllers"
-        ],
-        "files": [
-            "src/helpers/sharp_cms.php",
-            "src/helpers/sharp_internal.php"
-        ],
-        "psr-0": {
-            "Dvlpp\\Sharp": "src/"
-        }
+  "name": "oimken/sharp",
+  "description": "A kind of CMS for developers who hate CMS,From Philippe Lonchampt <dvlpp/sharp>, slightly modified ",
+  "authors": [
+    {
+      "name": "Philippe Lonchampt",
+      "email": "philippelonchampt@gmail.com"
     }
+  ],
+  "require": {
+    "php": ">=5.4.0",
+    "laravel/framework": "5.0.*",
+    "laravelcollective/html": "5.0.*",
+    "intervention/image": "2.*",
+    "erusev/parsedown": "~1.1",
+    "mustache/mustache": "~2.6.0"
+  },
+  "autoload": {
+    "classmap": [
+      "src/migrations",
+      "src/controllers"
+    ],
+    "files": [
+      "src/helpers/sharp_cms.php",
+      "src/helpers/sharp_internal.php"
+    ],
+    "psr-0": {
+      "Dvlpp\\Sharp": "src/"
+    }
+  }
 }
