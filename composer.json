@@ -1,6 +1,6 @@
 {
-    "name": "oimken/sharp",
-    "description": "A kind of CMS for developers who hate CMS, from Philippe Lonchampt, slightly modified.",
+    "name": "dvlpp/sharp",
+    "description": "A kind of CMS for developers who hate CMS",
     "authors": [
         {
             "name": "Philippe Lonchampt",
