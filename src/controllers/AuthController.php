@@ -5,6 +5,7 @@ use Dvlpp\Sharp\Config\SharpSiteConfig;
 use Dvlpp\Sharp\Exceptions\ValidationException;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 
 class AuthController extends Controller {
 
@@ -36,7 +37,7 @@ class AuthController extends Controller {
             {
                 // Login succeed
                 Session::put("sharp_user", $user);
-                return redirect()->intended("cms");
+                return redirect()->intended("admin/cms");
             }
             else
             {
