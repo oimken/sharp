@@ -1,3 +1,21 @@
+# This Fork for self-learning only.
+
+I am a beginner in laravel's world,
+I forked  "dvlpp/sharp" and change the code frequently,
+because I am in the learning state only and I love sharp in first sight.
+Please DO NOT use this for any purpose, there must be lots of errors, maybe some silly bugs in here. LOL
+
+But if you could point out my mistaken and teach me how to do better, I will be really appreciate that.
+
+Thanks for Philippe Lonchampt Sharing the Great Sharp.
+
+You are so kind to help such a beginner who likes me.
+
+
+
+
+
+
 #Sharp
 
 *A Laravel CMS for developers who hate CMS*
