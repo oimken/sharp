@@ -4,7 +4,7 @@ return [
 
     'login_loginPlaceholder' => 'Login',
     'login_passwordPlaceholder' => 'Password',
-    'login_submitBtn' => 'Connect',
+    'login_submitBtn' => 'Login',
     'login_passwordForgotten' => 'Forgot password?',
 
     'list_title' => '{0} No element.|{1} 1 element|[2,Inf] :count elements',

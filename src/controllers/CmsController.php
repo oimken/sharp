@@ -6,7 +6,7 @@ use Dvlpp\Sharp\Exceptions\InstanceNotFoundException;
 use Dvlpp\Sharp\Exceptions\ValidationException;
 use Dvlpp\Sharp\ListView\SharpEntitiesList;
 use Illuminate\Routing\Controller;
-use Dvlpp\Sharp\Lang\SharpLanguage;
+//use Dvlpp\Sharp\Lang\SharpLanguage;
 
 /**
  * Class CmsController
@@ -15,13 +15,13 @@ class CmsController extends Controller
 {
 
 
-    /**
-     * Set the locale for admin/cms
-     */
-    function __construct()
-    {
-        App::setLocale(SharpLanguage::current());
-    }
+//    /**
+//     * Set the locale for admin/cms
+//     */
+//    function __construct()
+//    {
+//        App::setLocale(SharpLanguage::current());
+//    }
 
     /**
      * @return mixed
@@ -357,17 +357,17 @@ class CmsController extends Controller
         }
     }
 
-    private function changeLang($lang)
-    {
-        $languages = SharpSiteConfig::getLanguages();
-        if ($languages) {
-            if (!$lang || !array_key_exists($lang, $languages)) {
-                $lang = array_values($languages)[0];
-            }
-
-            Session::put("sharp_lang", $lang);
-
-        }
-    }
+//    private function changeLang($lang)
+//    {
+//        $languages = SharpSiteConfig::getLanguages();
+//        if ($languages) {
+//            if (!$lang || !array_key_exists($lang, $languages)) {
+//                $lang = array_values($languages)[0];
+//            }
+//
+//            Session::put("sharp_lang", $lang);
+//
+//        }
+//    }
 
 } 

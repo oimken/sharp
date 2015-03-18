@@ -1,6 +1,7 @@
 <?php namespace Dvlpp\Sharp\Lang;
 
 use Dvlpp\Sharp\Config\SharpSiteConfig;
+use  Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 use Session;
 
 class SharpLanguage {
@@ -8,7 +9,6 @@ class SharpLanguage {
     static function current()
     {
         $languages = SharpSiteConfig::getLanguages();
-
         if($languages)
         {
             $lang = Session::get("sharp_lang");

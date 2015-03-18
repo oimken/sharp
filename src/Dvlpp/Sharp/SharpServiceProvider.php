@@ -70,6 +70,10 @@ class SharpServiceProvider extends ServiceProvider {
         $loader = AliasLoader::getInstance();
         $loader->alias('Form', 'Collective\Html\FormFacade');
         $loader->alias('HTML', 'Collective\Html\HtmlFacade');
+
+        //Register
+        $this->app->register('Mcamara\LaravelLocalization\LaravelLocalizationServiceProvider');
+        $loader->alias('LaravelLocalization', 'Mcamara\LaravelLocalization\Facades\LaravelLocalization');
 	}
 
 	/**

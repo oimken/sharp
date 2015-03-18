@@ -1,8 +1,12 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js"> <!--<![endif]-->
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,7 +14,8 @@
     <title>Sharp</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
 
-    <link href='http://fonts.googleapis.com/css?family=Lato:100,400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Lato:100,400,700,400italic,700italic' rel='stylesheet'
+          type='text/css'>
 
     <link href="/sharp/sharp.css" rel="stylesheet">
 
@@ -30,7 +35,8 @@
 
             <ul class="nav navbar-nav">
 
-                <li class="site"><a href="{{ URL::route('cms') }}">{{ \Dvlpp\Sharp\Config\SharpSiteConfig::getName() }}</a></li>
+                <li class="site"><a
+                            href="{{ URL::route('cms') }}">{{ \Dvlpp\Sharp\Config\SharpSiteConfig::getName() }}</a></li>
 
                 @foreach($cmsCategories as $catKey => $cat)
 
@@ -55,22 +61,23 @@
                 </div>
             @endif
 
-            @if(\Dvlpp\Sharp\Config\SharpSiteConfig::getLanguages())
+            {{--@if(\Dvlpp\Sharp\Config\SharpSiteConfig::getLanguages())--}}
                 <div class="dropdown navbar-right languages">
                     <a class="btn navbar-btn" data-toggle="dropdown" data-target="#">
-                        {{ $language }} <i class="fa fa-caret-down"></i>
+                        {{ LaravelLocalization::getCurrentLocaleName() }} <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu">
-                        @foreach(\Dvlpp\Sharp\Config\SharpSiteConfig::getLanguages() as $languageCode => $languageName)
+                        @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
                             <li>
-                                <a href="{{ route("cms.lang", [$languageCode]) }}">
-                                    {{ $languageName }}
+                                <a rel="alternate" hreflang="{{$localeCode}}"
+                                   href="{{LaravelLocalization::getLocalizedURL($localeCode) }}">
+                                    {{{ $properties['native'] }}}
                                 </a>
                             </li>
                         @endforeach
                     </ul>
                 </div>
-            @endif
+            {{--@endif--}}
 
         </div>
     </nav>
@@ -80,32 +87,32 @@
 <div id="contenu">
     <div class="container-fluid" id="mainrow">
 
-            <div id="navcol">
+        <div id="navcol">
 
-                @yield('navcol')
+            @yield('navcol')
+
+        </div>
+
+        <div class="row" id="maincontent">
+
+            <div class="col-sm-12 {{ isset($isEmbedded) && $isEmbedded ? "embedded" : "" }}" id="contextbar">
+
+                <nav class="navbar" role="navigation">
+                    <ul class="nav navbar-nav">
+
+                        @yield('contextbar')
+
+                    </ul>
+                </nav>
 
             </div>
 
-            <div class="row" id="maincontent">
+            <div class="col-sm-12" id="page">
 
-                <div class="col-sm-12 {{ isset($isEmbedded) && $isEmbedded ? "embedded" : "" }}" id="contextbar">
+                @yield('content')
 
-                    <nav class="navbar" role="navigation">
-                        <ul class="nav navbar-nav">
-
-                            @yield('contextbar')
-
-                        </ul>
-                    </nav>
-
-                </div>
-
-                <div class="col-sm-12" id="page">
-
-                    @yield('content')
-
-                </div>
             </div>
+        </div>
     </div>
 </div>
 
@@ -116,10 +123,10 @@
 </footer>
 
 @section("scripts")
-<script src="/sharp/vendor/jquery.min.js"></script>
-<script src="/sharp/vendor/bootstrap.min.js"></script>
-<script src="/sharp/vendor/jquery-ui-1.10.4.custom.min.js"></script>
-<script src="/sharp/sharp.ui.min.js"></script>
+    <script src="/sharp/vendor/jquery.min.js"></script>
+    <script src="/sharp/vendor/bootstrap.min.js"></script>
+    <script src="/sharp/vendor/jquery-ui-1.10.4.custom.min.js"></script>
+    <script src="/sharp/sharp.ui.min.js"></script>
 @show
 
 </body>
