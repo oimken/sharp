@@ -40,9 +40,9 @@ class AuthController extends Controller
 
                 // Check referer, if it is login page then redirect to "admin/"; otherwise just go back;
                 if (preg_match("#.*log2in[/]?$#", $request->server('HTTP_REFERER'))) {
-                    return redirect()->intended("admin");
+                    return redirect()->intended("admin")->with(["flashMessage" => trans('sharp::messages.login_success')]);;
                 } else {
-                    return Redirect::back();
+                    return Redirect::back()->with(["flashMessage" => trans('sharp::messages.login_success')]);
                 }
 
             } else {

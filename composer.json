@@ -26,7 +26,7 @@
       "src/helpers/sharp_internal.php"
     ],
     "psr-4": {
-      "Dvlpp\\Sharp": "src/"
+      "Dvlpp\\Sharp\\": "src/"
     }
   }
 }
