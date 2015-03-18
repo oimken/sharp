@@ -118,7 +118,7 @@
 
 <footer>
 
-    <p class="credits">Sharp {{ $sharpVersion }} — © Développlan 2014.</p>
+    <p class="credits">Sharp {{ $sharpVersion }} — Développlan.</p>
 
 </footer>
 
