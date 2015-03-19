@@ -11,6 +11,7 @@ use Dvlpp\Sharp\ListView\SharpEntitiesList;
 use Illuminate\Routing\Controller;
 //use Dvlpp\Sharp\Lang\SharpLanguage;
 use Mcamara\LaravelLocalization\LaravelLocalization;
+
 //use Session;
 
 
@@ -152,7 +153,7 @@ class CmsController extends Controller
 //            // (duplication is useful for i18n copy)
 //            $this->changeLang($lang);
 //        }
-        if($targetLang && $this->changeLang($targetLang)) {
+        if ($targetLang && $this->changeLang($targetLang)) {
             return $this->form($categoryName, $entityName, $id, $targetLang);
         }
     }
@@ -349,6 +350,11 @@ class CmsController extends Controller
 
         // Instantiate the entity repository
         $repo = App::make($entity->repository);
+
+        // if  duplicate / changing lang, set the new lang to repo
+        if (isset($data['lang'])) {
+            $repo->lang = $data['lang'];
+        }
 
         try {
             // First : validation
