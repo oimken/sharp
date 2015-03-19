@@ -1,4 +1,7 @@
 <?php
+/**
+ * Class CmsController
+ */
 
 use Dvlpp\Sharp\Config\SharpCmsConfig;
 use Dvlpp\Sharp\Config\SharpSiteConfig;
@@ -7,21 +10,30 @@ use Dvlpp\Sharp\Exceptions\ValidationException;
 use Dvlpp\Sharp\ListView\SharpEntitiesList;
 use Illuminate\Routing\Controller;
 //use Dvlpp\Sharp\Lang\SharpLanguage;
+use Mcamara\LaravelLocalization\LaravelLocalization;
+//use Session;
 
-/**
- * Class CmsController
- */
+
 class CmsController extends Controller
 {
+    /**
+     * @var Sharp Lang in Session, for duplication.
+     */
+    protected $sharpLang;
 
+    /**
+     * @var LaravelLocalization class.
+     */
+    protected $laravelLocalization;
 
-//    /**
-//     * Set the locale for admin/cms
-//     */
-//    function __construct()
-//    {
-//        App::setLocale(SharpLanguage::current());
-//    }
+    /**
+     * Get LaravelLocalization and sharp lang
+     */
+    function __construct(LaravelLocalization $laravelLocalization)
+    {
+        $this->sharpLang = Session::get("sharp_lang");
+        $this->laravelLocalization = $laravelLocalization;
+    }
 
     /**
      * @return mixed
@@ -61,6 +73,7 @@ class CmsController extends Controller
             // with some pagination, or sorting, or search config. We simply redirect
             // with the correct querystring based on old input
             $input = Session::get("listViewInput_{$categoryName}_{$entityName}");
+
             return redirect()->route('cms.list', array_merge(["category" => $categoryName, "entity" => $entityName], $input));
         } else {
             // Save input (we can use it later, see up)
@@ -126,21 +139,22 @@ class CmsController extends Controller
      * @param $categoryName
      * @param $entityName
      * @param $id
-     * @param null $lang
+     * @param null $targetLang
      * @throws InstanceNotFoundException
      * @return mixed
      */
-    public function duplicateEntity($categoryName, $entityName, $id, $lang = null)
+    public function duplicateEntity($categoryName, $entityName, $id, $targetLang = null)
     {
         Session::keep("listViewInput_{$categoryName}_{$entityName}");
 
-        if ($lang) {
-            // We have to first change the language
-            // (duplication is useful for i18n copy)
-            $this->changeLang($lang);
+//        if ($lang) {
+//            // We have to first change the language
+//            // (duplication is useful for i18n copy)
+//            $this->changeLang($lang);
+//        }
+        if($targetLang && $this->changeLang($targetLang)) {
+            return $this->form($categoryName, $entityName, $id, $targetLang);
         }
-
-        return $this->form($categoryName, $entityName, $id, true);
     }
 
     /**
@@ -234,18 +248,18 @@ class CmsController extends Controller
         //return redirect()->route("cms.list", [$categoryName, $entityName]);
     }
 
-    /**
-     * Switch current language, and redirects back
-     *
-     * @param $lang
-     * @return mixed
-     */
-    public function lang($lang)
-    {
-        $this->changeLang($lang);
-
-        return redirect()->back();
-    }
+//    /**
+//     * Switch current language, and redirects back
+//     *
+//     * @param $lang
+//     * @return mixed
+//     */
+//    public function lang($lang)
+//    {
+//        $this->changeLang($lang);
+//
+//        return redirect()->back();
+//    }
 
     /**
      * @param $categoryName
@@ -299,7 +313,7 @@ class CmsController extends Controller
 
             // Duplication management: we simply add an attribute here
             $instance->__sharp_duplication = $duplication;
-
+//            die("<xmp>".print_r($instance,1));
             if ($duplication && method_exists($repo, "prepareForDuplication")) {
                 // We call the repository hook for duplication, in case there's some
                 // ajusts to make on the instance
@@ -356,7 +370,6 @@ class CmsController extends Controller
             return redirect()->back()->withInput()->withErrors($e->getErrors());
         }
     }
-
 //    private function changeLang($lang)
 //    {
 //        $languages = SharpSiteConfig::getLanguages();
@@ -369,5 +382,17 @@ class CmsController extends Controller
 //
 //        }
 //    }
+
+    private function changeLang($lang)
+    {
+        $languages = $this->laravelLocalization->getSupportedLocales();
+
+        if (!$lang || !array_key_exists($lang, $languages)) {
+            return false;
+        }
+
+        Session::put("sharp_lang", $lang);
+        return true;
+    }
 
 } 

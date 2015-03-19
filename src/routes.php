@@ -4,6 +4,7 @@ use Dvlpp\Sharp\Config\SharpCmsConfig;
 use Dvlpp\Sharp\Config\SharpSiteConfig;
 use Illuminate\Support\Str;
 
+
 Route::group(['prefix' => LaravelLocalization::setLocale(),
     'middleware' => ['localize']], function () {
     Route::get('/admin', function () {
@@ -74,16 +75,18 @@ View::composer(['sharp::cms.cmslayout'], function ($view) {
     $view->with('cmsCategories', $categories);
 
     // Get current language
-    $language = Session::get("sharp_lang");
-    $languages = SharpSiteConfig::getLanguages();
-    if ($languages) {
-        if (!$language || !array_key_exists($language, $languages)) {
-            $language = array_values($languages)[0];
-        } else {
-            $language = $languages[$language];
-        }
-    }
-    $view->with('language', $language);
+//    $language = Session::get("sharp_lang");
+//    $languages = SharpSiteConfig::getLanguages();
+//    if ($languages) {
+//        if (!$language || !array_key_exists($language, $languages)) {
+//            $language = array_values($languages)[0];
+//        } else {
+//            $language = $languages[$language];
+//        }
+//    }
+//    $view->with('language', $language);
+    $view->with('language', LaravelLocalization::getCurrentLocale());
+
 
     // Get sharp version
     $view->with('sharpVersion', File::get(__DIR__ . "/../version.txt"));
