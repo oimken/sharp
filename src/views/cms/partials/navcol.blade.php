@@ -4,7 +4,8 @@
             <li class="{{ $entity->key == $eKey ? 'active' : '' }}">
                 <a href="{{ route('cms.list', [$category->key, $eKey]) }}">
                     <i class="fa fa-{{ $category->entities->$eKey->icon ?: 'file-o' }}"></i>
-                    {{ $category->entities->$eKey->plural }}
+                    {{--{{ $category->entities->$eKey->plural }}--}}
+                    {{ trans($category->entities->$eKey->plural) }}
                 </a>
             </li>
         @endif

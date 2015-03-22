@@ -36,13 +36,13 @@
             <ul class="nav navbar-nav">
 
                 <li class="site"><a
-                            href="{{ URL::route('cms') }}">{{ \Dvlpp\Sharp\Config\SharpSiteConfig::getName() }}</a></li>
+                            href="{{ URL::route('cms') }}">{{ trans(\Dvlpp\Sharp\Config\SharpSiteConfig::getName()) }}</a></li>
 
                 @foreach($cmsCategories as $catKey => $cat)
 
                     @if(\Dvlpp\Sharp\Auth\SharpAccessManager::granted("category", "view", $catKey))
                         <li class="{{ !isset($masterCategoryKey) && isset($category) && $catKey == $category->key ? 'active' : '' }}">
-                            <a class="category" href="{{ URL::route('cms.category', [$catKey]) }}">{{ $cat->label }}</a>
+                            <a class="category" href="{{ URL::route('cms.category', [$catKey]) }}">{{ trans($cat->label) }}</a>
                         </li>
                     @endif
 
