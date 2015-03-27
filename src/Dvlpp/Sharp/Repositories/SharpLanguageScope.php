@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ScopeInterface;
 
+use Mcamara\LaravelLocalization\LaravelLocalization;
+
 class SharpLanguageScope implements ScopeInterface
 {
 
@@ -38,7 +40,8 @@ class SharpLanguageScope implements ScopeInterface
 
         $column = $model->getQualifiedSharpLanguageColumn();
 
-        $bindingKey = 0;
+        $laravelLocalization = new LaravelLocalization;
+        $bindingKey = $laravelLocalization->getCurrentLocale();
 
         foreach ((array)$query->wheres as $key => $where) {
             if ($this->isSharpLanguageConstraint($where, $column)) {

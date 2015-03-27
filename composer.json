@@ -14,7 +14,8 @@
     "intervention/image": "2.*",
     "erusev/parsedown": "~1.1",
     "mustache/mustache": "~2.6.0",
-    "mcamara/laravel-localization": "1.0.*"
+    "mcamara/laravel-localization": "1.0.*",
+    "baum/baum": "~1.1"
   },
   "autoload": {
     "classmap": [
