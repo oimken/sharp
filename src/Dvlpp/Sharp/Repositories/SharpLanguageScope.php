@@ -11,6 +11,12 @@ use Mcamara\LaravelLocalization\LaravelLocalization;
 class SharpLanguageScope implements ScopeInterface
 {
 
+    protected $lang;
+
+    function __construct(){
+        $laravelLocalization = new LaravelLocalization;
+        $this->lang = $laravelLocalization->getCurrentLocale();
+    }
     /**
      * Apply scope on the query.
      *
@@ -22,7 +28,7 @@ class SharpLanguageScope implements ScopeInterface
     {
         $column = $model->getQualifiedSharpLanguageColumn();
 
-        $builder->where($column, '=', 1);
+        $builder->where($column, '=', $this->lang);
 
         $this->allLanguages($builder);
     }
@@ -40,8 +46,8 @@ class SharpLanguageScope implements ScopeInterface
 
         $column = $model->getQualifiedSharpLanguageColumn();
 
-        $laravelLocalization = new LaravelLocalization;
-        $bindingKey = $laravelLocalization->getCurrentLocale();
+
+        $bindingKey = $this->lang;
 
         foreach ((array)$query->wheres as $key => $where) {
             if ($this->isSharpLanguageConstraint($where, $column)) {
