@@ -17,6 +17,7 @@
     "mcamara/laravel-localization": "1.0.*",
     "baum/baum": "~1.1"
   },
+  "minimum-stability": "dev",
   "autoload": {
     "classmap": [
       "src/migrations",
